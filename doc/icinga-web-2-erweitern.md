@@ -18,7 +18,7 @@ Ob es jetzt um die reine Verlinkung von Drittsystemen, die Anbindung einer CMDB 
 
 ## Ich bin aber kein PHP/JavaScript/HTML5 Hacker
 
-Kein Problem. Freilich schadet es nicht, über fundierte Kenntnisse der Webentwicklung zu verfügung. Icinga Web erlaubt es aber, auch ohne tiefgehende PHP/HTML/CSS-Kenntnisse eigene Module schreiben zu können.
+Kein Problem. Freilich schadet es nicht, über fundierte Kenntnisse der Webentwicklung zu verfügen. Icinga Web erlaubt es aber, auch ohne tiefgehende PHP/HTML/CSS-Kenntnisse eigene Module schreiben zu können.
 
 # Vorbereitung
 
