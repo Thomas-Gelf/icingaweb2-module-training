@@ -129,7 +129,7 @@ Um loslegen zu können benötigen wir zuallererst Icinga Web 2. Dieses lässt si
     git clone https://git.icinga.org/icingaweb2.git
     ./icingaweb2/bin/icingacli web serve
 
-Fertig. Um den Installationswizard benutzen zu dürfen ist aus Sicherheitsgründen ein Token erforderlich. Man wird von der Weboberfläche dazu aufgefordert, ein auf der CLI generiertes Token einzugeben. Damit stellen wir sicher, dass es zwischen Installation und Einrichtung nie einen Zeitpunkt gibt, zu welchem ein Angreifer eine Umgebung übernehmen könnte. Für Packager ist dieser Punkt vollkommen opional, selbiges gilt für jene die Icinga Web mit einem CM-Tool wie Puppet ausrollen: liegt eine Konfiguration auf dem System, so bekommt man den Wizard nie zu Gesicht.
+Fertig. Um den Installationswizard benutzen zu dürfen, ist aus Sicherheitsgründen ein Token erforderlich. Man wird von der Weboberfläche dazu aufgefordert, ein auf der CLI generiertes Token einzugeben. Damit stellen wir sicher, dass es zwischen Installation und Einrichtung, nie einen Zeitpunkt gibt, zu welchem ein Angreifer eine Umgebung übernehmen könnte. Für Packager ist dieser Punkt vollkommen opional, selbiges gilt für jene, die Icinga Web mit einem CM-Tool wie Puppet ausrollen: liegt eine Konfiguration auf dem System, so bekommt man den Wizard nie zu Gesicht.
 
   http://localhost
 
