@@ -728,7 +728,11 @@ Wir erstellen für unsere Bibliothek wieder ein neues Verzeichnis in unserem Mod
 
     mkdir -p library/Training
 
-Für unser Modul nutzen wir wie schon gelernt den Namensraum `Icinga\Module\<Modulname>`. Alle darunter befindlichen Namespaces sucht Icinga Web 2 automatisch im eben erstellten Verzeichnis. Ausnahmen sind die vorhin gesehen, wie z.B. `Clicommands` oder `Controllers`. 
+Für unser Modul nutzen wir wie schon gelernt den Namensraum `Icinga\Module\<Modulname>`. Alle darunter befindlichen Namespaces sucht Icinga Web 2 automatisch im eben erstellten Verzeichnis. Ausnahmen sind:  
+
+* `Clicommands`  
+* `Controllers`  
+* `Forms` 
 
 Eine Biblithek, welche die in der Übung umgesetzte Aufgabe erledigt, könnte in `File.php` liegen und wie folgt aussehen:
 
