@@ -1,6 +1,6 @@
 # Icinga Web 2 erweitern
 
-## Eigene Icinga Web Module schreiben
+## Eigene Icinga Web 2 Module schreiben
 
 Herzlich willkommen! Schön dass du hier bist, um deine ersten eigenen Icinga Web Module zu schreiben. Icinga Web macht uns den Einstieg möglichst einfach. In den nächsten Stunden werden wir anhand einer Reihe praktischer Beispiele entdecken, wie angenehm das Ganze ist.
 
@@ -22,32 +22,20 @@ Kein Problem. Freilich schadet es nicht, über fundierte Kenntnisse der Webentwi
 
 # Vorbereitung
 
-Wir nutzen für die Schulung eine Debian Basis-Installation um zu zeigen, wie wenig Abhängigkeiten Icinga Web 2 hat. Es gibt zwar Pakete für alle gängigen Distributionen, wir werden in der Schulung für den besseren Lerneffekt aber direkt mit dem GIT Source-Tree arbeiten.
+Zum warm werden geben wir unseren Noteboooks schon mal eine kleine Aufgabe und installieren Icinga Web 2:
 
-Damit unsere Notebooks aus dem Wochenendschlaf erwachen, geben wir denen schon mal eine kleine Aufgabe:
+    https://icinga.com/docs/icingaweb2/latest/doc/02-Installation/
 
-    apt-get update
-
-    # Ein paar nützliche Tools für den Workshop:
-    apt-get install git vim wget
-
-    # Abhängigkeiten für Icinga Web 2:
-    apt-get install php5-cli php5-mysql php5-gd php5-intl php5-ldap
-
-    # Aktueller Quellcode aus dem Icinga Web 2 Master:
-    cd /usr/local
-    git clone https://git.icinga.org/icingaweb2.git
-
-In der Zwischenzeit widmen wir uns dann der Einführung!
+Bevor es dann so richtig los geht widmen wir uns erstmal der Einführung!
 
 ## Aufbau des Trainings
 
-* Einrichtung von Icinga Web 2
+* Über Icinga Web 2
 * Erstellung eines eigenen Moduls
   * Eigene CLI-Commands
   * Arbeiten mit Parametern
-  * Farben und andere Gimmiks
-* Erweiterung der Web-Frontends
+  * Farben und andere Gimmicks
+* Erweiterung des Web-Frontends
   * Eigene Bilder
   * Eigene Stylesheets
   * Erweiterung des Menüs
@@ -60,21 +48,20 @@ In der Zwischenzeit widmen wir uns dann der Einführung!
 * Konfiguration
 * Übersetzungen
 * Integration in Dritt-Software
-* Freies Lab
+* Abschließende Anmerkungen
 
 
 ## Icinga Web 2 Architektur
 
 Bei der Entwicklung von Icinga Web 2 wurde auf drei Schwerpunkte Wert gelegt:
 
-* Einfachheit.
+* Einfachheit
 * Geschwindigkeit
 * Zuverlässigkeit
 
+Wir haben uns zwar der DevOps-Bewegung verschrieben, unsere Zielgruppe ist mit Icinga Web 2 aber ganz klar der Operator, der Admin. Wir versuchen darum möglichst wenig Abhängigkeiten von externen Komponenten zu haben. Wir verzichten deshalb auf das ein oder andere hippe Feature, dafür geht dann aber auch weniger kaputt wenn die Hippster in der nächsten Version wieder alles anders machen wollen.
 
-Wir haben uns zwar der DevOps-Bewegung verschrieben, unsere Zielgruppe ist mit Icinga Web 2 aber ganz klar der Operator, der Admin. Wir versuchen darum möglichst wenig Abhängigkeiten von externen Komponenten zu haben. Wir verzichten so auf das ein oder andere hippe Feature, dafür geht dann aber auch weniger kaputt wenn die Hippster in der nächsten Version wieder alles anders machen wollen. Bestes Beispiel ist dieser Workshop: mittlerweile ein Jahr alt, lange vor der ersten Stable Release von Icinga Web 2 geschrieben - und dennoch funktionieren fast alle Übungen nach wie vor ohne Änderungen am Code.
-
-Die Web-Oberfläche wurde entworfen, um problemlos Wochen- und Monatelang auf demselben Bildschirm an der Wand hängen zu können. Wir wollen uns darauf verlassen können, dass was wir dort sehen dem aktuellen Stand unserer Umgebung entspricht. Gibt es Probleme, werden diese visualiert, auch wenn sie in der Anwendung selbst liegen. Wird das Problem behoben, muss alles weiterlaufen wie gehabt. Und das ohne, dass jemand eine Tastatur anstöpseln und manuell eingreifen muss.
+Die Web-Oberfläche wurde entworfen, um problemlos Wochen- und Monatelang auf demselben Bildschirm an der Wand hängen zu können. Wir wollen uns darauf verlassen können, dass was wir dort sehen, dem aktuellen Stand unserer Umgebung entspricht. Gibt es Probleme, werden diese visualiert, auch wenn sie in der Anwendung selbst liegen. Wird das Problem behoben, muss alles weiterlaufen wie gehabt. Und das ohne, dass jemand eine Tastatur anstöpseln und manuell eingreifen muss.
 
 
 ## Benutzte Bibliotheken
@@ -126,55 +113,23 @@ Um loslegen zu können benötigen wir zuallererst Icinga Web 2. Dieses lässt si
 
     cd /usr/local
     # Wenn noch nicht erledigt:
-    git clone https://git.icinga.org/icingaweb2.git
+    git clone https://github.com/Icinga/icingaweb2.git
     ./icingaweb2/bin/icingacli web serve
 
 Fertig. Um den Installationswizard benutzen zu dürfen, ist aus Sicherheitsgründen ein Token erforderlich. Man wird von der Weboberfläche dazu aufgefordert, ein auf der CLI generiertes Token einzugeben. Damit stellen wir sicher, dass es zwischen Installation und Einrichtung, nie einen Zeitpunkt gibt, zu welchem ein Angreifer eine Umgebung übernehmen könnte. Für Packager ist dieser Punkt vollkommen opional, selbiges gilt für jene, die Icinga Web mit einem CM-Tool wie Puppet ausrollen: liegt eine Konfiguration auf dem System, so bekommt man den Wizard nie zu Gesicht.
 
   http://localhost
 
-## Volle Installation mit Webserver
-
-Wir haben bisher spaßeshalber Icinga Web 2 ohne externen Webserver laufen lassen. Das würde sogar für die meisten produktiven Umgebungen performant genug sein, dennoch fühlen sich die meisten von uns mit einem "richtigen" Webserver wohler. Wir stoppen also falls nicht schon geschehen den PHP-Prozess und räumen erst mal auf:
-
-```sh
-rm -rf /tmp/FileCache_icingaweb/ /var/lib/php5/sess_*
-```
-
-Diese vermutlich von root erstellten Dateien würden uns ansonsten lediglich Probleme bereiten. Dann installieren wir unseren Webserver:
-
-```
-apt-get install libapache2-mod-php5
-./icingaweb2/bin/icingacli setup config webserver apache \
-  > /etc/apache2/conf.d/icingaweb2.conf
-service apache2 restart
-```
-
-Du siehst richtig, Icinga Web 2 kann sich seine Konfiguration für Apache (2.x, auch kompatibel zu 2.4) selbst generieren. Das gilt nicht nur für den Apache, sondern auch für Nginx.
-
-## Das Konfigurationsverzeichnis
-
-Falls nicht anders konfiguriert, sucht Icinga Web 2 seine Konfiguration in `/etc/icingaweb`. Dies lässt sich mit der Umgebungsvariable ICINGAWEB_CONFIGDIR jederzeit überschreiben. Auch im Webserver können wir dies nutzen:
-
-    SetEnv ICINGAWEB_CONFIGDIR /another/directory
-
 ## Verwalten mehrerer Modul-Pfade
 
-Gerade wer immer mit dem aktuellsten Versionsstand arbeiten oder gefahrlos zwischen GIT-Branches hin- und herwechseln möchte, der will für gewöhnlich ungern Dateien in seiner Arbeitskopie ändern müssen. Darum empfiehlt es sich, von Beginn an parallel mehrere Modul-Pfade zu benutzen. Dies kann in den System-Einstellungen oder in der Konfiguration unter `/etc/icingaweb/config.ini` vorgenommen werden:
+Gerade wer immer mit dem aktuellsten Versionsstand arbeiten oder gefahrlos zwischen GIT-Branches hin- und herwechseln möchte, der will für gewöhnlich ungern Dateien in seiner Arbeitskopie ändern müssen. Darum empfiehlt es sich, von Beginn an parallel mehrere Modul-Pfade zu benutzen. Dies kann in den System-Einstellungen oder in der Konfiguration unter `/etc/icingaweb2/config.ini` vorgenommen werden:
 
     [global]
     module_path= "/usr/local/icingaweb-modules:/usr/local/icingaweb2/modules"
 
-
-## Icinga CLI einrichten
-
-Bei der Installation aus Paketen muss man sich um nichts kümmern, für unsere GIT-Arbeitskopie erstellen wir der Bequemlichkeit halber noch einen symbolischen Link:
-
-    ln -s /usr/local/icingaweb2/bin/icingacli /usr/local/bin/
-
 ## Installation aus Paketen
 
-Das Icinga Projekt baut täglich aktuelle Snapshots für verschiedenste Betriebssysteme, die Paketquellen gibt es unter [packages.icinga.org](https://packages.icinga.org/). Der aktuelle Buildstatus lässt sich unter [build.icinga.org](https://build.icinga.org/jenkins/view/Icinga%20Web%202/) verfolgen, und die aktuelle Entwicklung jederzeit unter [git.icinga.org](https://git.icinga.org/?p=icingaweb2.git) oder auf [GitHub](https://github.com/Icinga/icingaweb2/).
+Das Icinga Projekt baut täglich aktuelle Snapshots für verschiedenste Betriebssysteme, die Paketquellen gibt es unter [packages.icinga.org](https://packages.icinga.org/). Die aktuelle Entwicklung lässt sich jederzeit auf [GitHub](https://github.com/Icinga/icingaweb2/) verfolgen.
 
 Für unser Training nutzen wir aber direkt das Git-Repository. Und auch in Produktion mache ich das nicht ungern. Checksummen für alles, geänderte Dateien bleiben nie unentdeckt, Versionswechsel passieren in einem Sekundenbruchteil - welches Paketmanagement kann das schon bieten? Außerdem zeigt dieses Vorgehen schön, wie simpel Icinga Web 2 eigentlich ist. Wir mussten zur Installation keine einzige Datei im Quellverzeichnis ändern. Automake, configure? Wozu denn?! Die Konfiguration liegt woanders, und WO sie liegt wird der Laufzeitumgebung mitgeteilt.
 
@@ -201,15 +156,6 @@ Fertig!
 # Erweitern der Icinga CLI
 
 Die Icinga CLI wurde entworfen, um möglichst alles von dem was an Applikationslogik in Icinga Web 2 und dessen Modulen zur Verfügung steht auch auf der Kommandozeile bereitzustellen. Damit will das Projekt die Erstellung von Cronjobs, Plugins, nützlichen Tools und eventuell kleinen Diensten möglichst einfach gestalten.
-
-## Vim konfigurieren
-
-Wir arbeiten im Training mit VIM und nehmen ein paar erste Einstellungen vor:
-
-    echo 'syntax on
-    set expandtab
-    set tabstop=4
-    set shiftwidth=4' > /root/.vimrc
 
 ## Eigene CLI-Commands
 
@@ -302,7 +248,7 @@ Befehle und deren Aktionen können einfach über Inline-Kommentare dokumentiert 
  * This is where we say hello
  *
  * The hello command allows us to be friendly to everyone
- * and his dog. That's how nice people behave!
+ * and their dog. That's how nice people behave!
  */
 class HelloCommand extends Command
 {
@@ -608,25 +554,25 @@ $this->menuSection('Training')->setIcon('img/icons/success.png');
 Wenn man in seinem Modul eigene Bilder nutzen möchte, stellt man diese einfach unter `public/img` bereit:
 
     mkdir -p public/img
-    wget https://www.icinga.org/wp-content/uploads/2014/06/tgelf.jpg
-    mv tgelf.jpg public/img/
+    wget https://icinga.com/wp-content/uploads/2016/02/icinga_icon.png
+    mv icinga_icon.png public/img/
 
 Unsere Bilder sind sofort via Web erreichbar, das URL-Muster ist wie folgt:
 
     http(s)://<icingaweb>/img/<module>/<bild>
 
-Für unseren konkreten fall also http://localhost/img/training/tgelf.jpg. Das lässt sich so auch wunderbar gleich in unserem View-Skript nutzen. Anstatt einen img-Tag anzulegen (was natürlich möglich wäre) nutzen wir einen der vielen praktischen View-Helper:
+Für unseren konkreten fall also `http://localhost/img/training/icinga_icon.png`. Das lässt sich so auch wunderbar gleich in unserem View-Skript nutzen. Anstatt einen img-Tag anzulegen (was natürlich möglich wäre) nutzen wir einen der vielen praktischen View-Helper:
 
 ```php
 ...
 <div class="content">
-<?= $this->img('img/training/tgelf.jpg', array('title' => 'Thomas Gelf')) ?> Here you go...
+<?= $this->img('img/training/icinga_icon.png', array('title' => 'Icinga Icon')) ?> Here you go...
 </div>
 ```
 
 ## Aufgabe
 
-Erstelle die URLs `training/hello/thomas` und `training/say/hello` und füge jeweils einen zusätzlichen Menüpunkt hinzu. Suche zudem für unser Training-Modul ein schöneres Icon aus dem Internet und richte es entsprechend ein.
+Erstelle die URLs `training/hello/test` und `training/say/hello` und füge jeweils einen zusätzlichen Menüpunkt hinzu. Suche zudem für unser Training-Modul ein schöneres Icon aus dem Internet und richte es entsprechend ein.
 
 ## Dashboards
 
@@ -685,7 +631,7 @@ Das hat jetzt zwar nicht direkt mit unserem Thema zu tun, aber eins fällt auf: 
 
     mkdir public/css
 
-Unsere CSS-Anweisungen legen wir anschließend dort in der Datei `module.less` ab. Less ist eine CSS-Erweiterung um allerhand Funktionen, mehr dazu findet sich unter [...](). Herkömmliches CSS ist hier aber auf jeden Fall gültig. Das Schöne an Icinga Web ist nun, dass ich mir keine Gedanken darüber machen muss, ob mein CSS andere Module oder Icinga Web selbst beeinflusst: das ist nicht der Fall.
+Unsere CSS-Anweisungen legen wir anschließend dort in der Datei `module.less` ab. Less ist eine CSS-Erweiterung um allerhand Funktionen, mehr dazu findet sich unter [der offiziellen Website](http://lesscss.org/functions/). Herkömmliches CSS ist hier aber auf jeden Fall gültig. Das Schöne an Icinga Web ist nun, dass ich mir keine Gedanken darüber machen muss, ob mein CSS andere Module oder Icinga Web selbst beeinflusst: das ist nicht der Fall.
 
 So können wir problemlos folgendes definieren, ohne fremde Tabellen "kaputt" zu machen:
 
@@ -940,9 +886,9 @@ Fertig! Keine Authentifizierung, kein Bootstrapping der vollen Web-Oberfläche. 
 ## Aufgabe
 Erstelle eine zusätzliche PHP-Datei, welche Icinga Web 2 einbettet. Benutze anschließend die Bibliothek zum Verzeichnis-Handling aus deinem Trainingsmodul.
 
-# Freies Lab
+# Abschließend
 
-Du bist wirklich hier angekommen? An einem einzigen Tag? Respekt. Der Referent hat jetzt garantiert eine spannende letzte Übungsaufgabe parat, um den Tag mit einem praxisnahen Beispiel und vielen neuen Tricks ausklingen zu lassen.
+Hiermit hast du es geschafft, die Grundlagen der Modulentwicklung für Icinga Web 2 hast du nun gelernt - für alles Weitere gilt es: ausprobieren! Für weitere Hilfestellungen gibt es auf [Icinga Exchange](https://exchange.icinga.com/) und auf unseren [Icinga Events](https://icinga.com/events/) mit Sicherheit allerhand Inspirationen für dich!
 
-Viel Freude mit Icinga Web 2!!!
+Viel Freude und fröhliches Hacken mit Icinga Web 2!!!
 
