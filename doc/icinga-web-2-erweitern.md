@@ -67,7 +67,7 @@ Die Web-Oberfläche wurde entworfen, um problemlos Wochen- und Monatelang auf de
 ## Benutzte Bibliotheken
 
 * Zend Framework 1.x
-* jQuery 1.11 und 2.1
+* jQuery 3
 * Kleinere PHP-Libraries
   * HTMLPurifier
   * DOMPdf

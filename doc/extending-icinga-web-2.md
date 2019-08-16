@@ -65,7 +65,7 @@ The web interface is designed to be displayed on a dashboard for weeks and even 
 ## Libraries used
 
 * Zend Framework 1.x
-* jQuery 1.11 and 2.1
+* jQuery 3
 * Smaller PHP libraries
   * HTMLPurifier
   * DOMPdf
