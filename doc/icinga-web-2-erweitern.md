@@ -534,7 +534,7 @@ class HelloController extends Controller
 }
 ```
 
-Wenn wir die Url ( training/application/controllers ) jetzt aufrufen, erhalten wir eine Fehlermeldung:
+Wenn wir die Url ( training/hello/world ) jetzt aufrufen, erhalten wir eine Fehlermeldung:
 
 
     Server error: script 'hello/world.phtml' not found in path
