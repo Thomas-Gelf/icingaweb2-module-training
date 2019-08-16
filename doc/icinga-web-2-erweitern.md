@@ -12,7 +12,7 @@ Unbedingt, warum nicht? Es ist herrlich einfach, und Icinga ist 100% freie Open 
 
 Überhaupt nicht! Klar, Monitoring ist da wo Icinga Web herkommt. Dort hat es seine Stärken, dort ist es zu Hause. Nachdem Monitoring-Systeme ohnehin mit allen möglichen Systemen in- und außerhalb des eigenen Rechenzentrums kommunizieren fanden wir es naheliegend, dies jetzt auch im Frontend auf ähnliche Weise zu tun.
 
-Icinga Web will ein modulares Framework sein, welches die Integration von Drittsoftware möglichst einfach gestalten will. Gleichzeitig wollen wir es getreu dem Open Source Gedanken auch Dritten einfach machen, Logik von Icinga möglichst bequem in deren eigenen Projekten zu nutzen.
+Icinga Web will ein modulares Framework sein, welches die Integration von Drittsoftware möglichst einfach gestalten will. Gleichzeitig wollen wir es, getreu dem Open Source Gedanken, auch Dritten einfach machen, Logik von Icinga möglichst bequem in deren eigenen Projekten zu nutzen.
 
 Ob es jetzt um die reine Verlinkung von Drittsystemen, die Anbindung einer CMDB oder die Visualisierung von komplexen Systemen als Ergänzung zu herkömmlichen Check-Plugins geht - der Fantasie sind hier keine Grenzen gesetzt.
 
@@ -59,9 +59,9 @@ Bei der Entwicklung von Icinga Web 2 wurde auf drei Schwerpunkte Wert gelegt:
 * Geschwindigkeit
 * Zuverlässigkeit
 
-Wir haben uns zwar der DevOps-Bewegung verschrieben, unsere Zielgruppe ist mit Icinga Web 2 aber ganz klar der Operator, der Admin. Wir versuchen darum möglichst wenig Abhängigkeiten von externen Komponenten zu haben. Wir verzichten deshalb auf das ein oder andere hippe Feature, dafür geht dann aber auch weniger kaputt wenn die Hippster in der nächsten Version wieder alles anders machen wollen.
+Wir haben uns zwar der DevOps-Bewegung verschrieben, unsere Zielgruppe ist mit Icinga Web 2 aber ganz klar der Operator - der Admin. Wir versuchen darum möglichst wenig Abhängigkeiten von externen Komponenten zu haben. Wir verzichten deshalb auf das ein oder andere hippe Feature, dafür geht dann aber auch weniger kaputt, wenn man auf die neuesten Versionen updaten möchte.
 
-Die Web-Oberfläche wurde entworfen, um problemlos Wochen- und Monatelang auf demselben Bildschirm an der Wand hängen zu können. Wir wollen uns darauf verlassen können, dass was wir dort sehen, dem aktuellen Stand unserer Umgebung entspricht. Gibt es Probleme, werden diese visualiert, auch wenn sie in der Anwendung selbst liegen. Wird das Problem behoben, muss alles weiterlaufen wie gehabt. Und das ohne, dass jemand eine Tastatur anstöpseln und manuell eingreifen muss.
+Die Web-Oberfläche wurde entworfen, um problemlos Wochen- und Monatelang auf demselben Bildschirm an der Wand hängen zu können. Wir wollen uns darauf verlassen können, dass was wir dort sehen, dem aktuellen Stand unserer Umgebung entspricht. Gibt es Probleme, werden diese visualiert - auch wenn sie in der Anwendung selbst liegen. Wird das Problem behoben, muss alles weiterlaufen wie gehabt. Und das ohne, dass jemand eine Tastatur anstöpseln und manuell eingreifen muss.
 
 
 ## Benutzte Bibliotheken
@@ -109,7 +109,7 @@ Wir werden uns eine solche im Rahmen dieses Trainings Schritt für Schritt erarb
 
 ## Source Tree vorbereiten
 
-Um loslegen zu können benötigen wir zuallererst Icinga Web 2. Dieses lässt sich aus dem GIT Source Tree auschecken und direkt an Ort und Stelle benutzen. Setzt man anschließend `DocumentRoot` eines entsprechend konfigurierten Webservers in das public-Verzeichnis, kann man auch schon loslegen. Zu Testzwecken geht es aber auch noch einfacher:
+Um loslegen zu können benötigen wir zuallererst Icinga Web 2. Dieses lässt sich aus dem GIT Source Tree auschecken und direkt an Ort und Stelle benutzen. Setzt man anschließend `DocumentRoot` eines entsprechend konfigurierten Webservers in das `public` Verzeichnis, kann man auch schon loslegen. Zu Testzwecken geht es aber auch noch einfacher:
 
     cd /usr/local
     # Wenn noch nicht erledigt:
@@ -118,7 +118,9 @@ Um loslegen zu können benötigen wir zuallererst Icinga Web 2. Dieses lässt si
 
 Fertig. Um den Installationswizard benutzen zu dürfen, ist aus Sicherheitsgründen ein Token erforderlich. Man wird von der Weboberfläche dazu aufgefordert, ein auf der CLI generiertes Token einzugeben. Damit stellen wir sicher, dass es zwischen Installation und Einrichtung, nie einen Zeitpunkt gibt, zu welchem ein Angreifer eine Umgebung übernehmen könnte. Für Packager ist dieser Punkt vollkommen opional, selbiges gilt für jene, die Icinga Web mit einem CM-Tool wie Puppet ausrollen: liegt eine Konfiguration auf dem System, so bekommt man den Wizard nie zu Gesicht.
 
+```
   http://localhost
+```
 
 ## Verwalten mehrerer Modul-Pfade
 
@@ -155,7 +157,7 @@ Fertig!
 
 # Erweitern der Icinga CLI
 
-Die Icinga CLI wurde entworfen, um möglichst alles von dem was an Applikationslogik in Icinga Web 2 und dessen Modulen zur Verfügung steht auch auf der Kommandozeile bereitzustellen. Damit will das Projekt die Erstellung von Cronjobs, Plugins, nützlichen Tools und eventuell kleinen Diensten möglichst einfach gestalten.
+Die Icinga CLI wurde entworfen, um möglichst alles von dem was an Applikationslogik in Icinga Web 2 und dessen Modulen zur Verfügung steht, auch auf der Kommandozeile bereitzustellen. Damit will das Projekt die Erstellung von Cronjobs, Plugins, nützlichen Tools und eventuell kleinen Diensten möglichst einfach gestalten.
 
 ## Eigene CLI-Commands
 
@@ -170,7 +172,7 @@ Das Erstellen eines CLI-Kommandos ist denkbar einfach. Im Verzeichnis `applicati
     mkdir -p application/clicommands
     vim application/clicommands/HelloCommand.php
 
-Hierbei entspricht Hello dem gewünschten Kommando mit großem Anfangsbuchstaben. Die Endung Command MUSS immer drangesetzt werden.
+Hierbei entspricht `Hello` dem gewünschten Kommando mit großem Anfangsbuchstaben. Die Endung `Command` muss IMMER drangesetzt werden.
 
 Beispiel-Command:
 
@@ -200,11 +202,11 @@ Icinga\Module\<Modulname>
 
 ## Vererbung
 
-Sämtliche CLI-Commands MÜSSEN die Command-Klasse im Namesraum `Icinga\Cli` beerben. Dies bringt uns eine ganze Reihe von Vorteilen, auf die wir später noch eingehen werden. Wichtig ist, dass unser Klassenname dem Namen der Datei entspricht. In unsererer HelloCommand.php wäre dies also class HelloCommand.
+Sämtliche CLI-Commands MÜSSEN die Command-Klasse im Namesraum `Icinga\Cli` beerben. Dies bringt uns eine ganze Reihe von Vorteilen, auf die wir später noch eingehen werden. Wichtig ist, dass unser Klassenname dem Namen der Datei entspricht. In unsererer `HelloCommand.php` wäre dies also die Klasse `HelloCommand`.
 
 ## Command-Actions
 
-Jedes Command kann mehrere Actions bereitstellen. Jede neue öffentliche Methode, welche mit Action endet wird hierbei automatisch zu einer CLI command action:
+Jedes Command kann mehrere Actions bereitstellen. Jede neue öffentliche Methode, welche mit `Action` endet wird hierbei automatisch zu einer CLI command action:
 
 ```php
 <?php
@@ -362,11 +364,11 @@ public function fromAction()
 
 ## API-Dokumentation
 
-Die Params-Klasse im `Icinga\Cli` namespace dokumentiert noch weitere Methoden und deren Parameter. Diese sind am bequemsten in der API-Dokumentation zugänglich. Diese lässt sich mit phpDocumentor generieren, in Kürze dürfte es dazu auch einen CLI-Befehl geben.
+Die Params-Klasse im `Icinga\Cli` namespace dokumentiert noch weitere Methoden und deren Parameter. Diese sind am bequemsten in der API-Dokumentation zugänglich. Diese lässt sich mit phpDocumentor generieren.
 
 ## Aufgabe 3
 
-Erweitere den say-Befehl, um alle folgenden Variangen zu unterstützen:
+Erweitere den `say` Befehl, um alle folgenden Variangen zu unterstützen:
 
     icingacli training say hello World
     icingacli training say hello --to World
@@ -376,7 +378,7 @@ Erweitere den say-Befehl, um alle folgenden Variangen zu unterstützen:
 
 ## Exceptions
 
-Icinga Web 2 will sauberen PHP-Code fördern. Dazu gehört nebst anderem, dass sämtliche Warnings Fehler generieren. Zum Error-Handling werden Fehler geworfen. Wir können das einfach ausprobieren:
+Icinga Web 2 will sauberen PHP-Code fördern. Dazu gehört, nebst anderem, dass sämtliche Warnungen Fehler generieren. Zum Error-Handling werden Fehler geworfen. Wir können das einfach ausprobieren:
 
 ```php
 <?php
@@ -399,7 +401,7 @@ public function kaputtAction()
 
 ## Exit-Codes
 
-Wie wir sehen, fängt die CLI sämtliche Exceptions und gibt angenehm lesbare Fehlermeldungen nebst farbigem Hinweis auf den Fehler aus. Der Exit-Code ist in diesem Fall immer 1:
+Wie wir sehen, fängt die CLI sämtliche Exceptions und gibt angenehm lesbare Fehlermeldungen, nebst farbigem Hinweis auf den Fehler, aus. Der Exit-Code ist in diesem Fall immer 1:
 
     echo $?
 
@@ -609,7 +611,8 @@ Wir erweitern jetzt unser View-Skript und stellen die übermittelten Daten entsp
 ```php
 <h3>Some data...</h3>
 
-This example is provided by <a href="http://www.icinga.com">Icinga</a> 
+This example is provided by <a href="http://www.icinga.com">Icinga
+</a> 
 and based on <?= $this->application ?>.
 
 <table>

@@ -12,7 +12,7 @@ Absolutely, why not? It's incredibly straightforward, and Icinga is 100% free, o
 
 Not at all! Sure, monitoring is where Icinga Web originates and it's what it excels at. Since monitoring systems communicate with all sorts of systems in and outside of ones data center anyway, we found it to be the most natural thing to have the frontend behave in a similar fashion.
 
-Icinga Web is a modular framework that aims to make integration of third-party software as easy as possible. At the same time, true to the Open Source concept, we also want to make it easy for third parties to use Icinga logic, as conveniently as possible, in their own projects.
+Icinga Web is a modular framework, which aims to make integration of third-party software as easy as possible. At the same time, true to the Open Source concept, we also want to make it easy for third parties to use Icinga logic, as conveniently as possible, in their own projects.
 
 Whether it is about integrating third-party systems, the connection of a CMDB or the visualization of complex systems to supplement popular check-plugins - there is no limit to what you can do.
 
@@ -48,7 +48,7 @@ Before we get that ball rolling, we will begin with a little introduction!
 * Configuration
 * Translations
 * Integration in third-party software
-* Free lab
+* Concluding remarks
 
 ## Icinga Web 2 architecture
 
@@ -76,7 +76,7 @@ The web interface is designed to be displayed on a dashboard for weeks and even 
 
 ## Anatomy of an Icinga Web 2 module
 
-Icinga Web 2 follows the paradigm 'convention before configuration'. A lesson learnt from our development of Icinga Web 1: one of the best tools for XML processing is on every disk: `/bin/rm`. Those who stick to a few simple conventions will save a lot of configuration work. Basically, in Icinga Web you only have to configure paths for special cases. It is usually enough to just save a file in the right place.
+Icinga Web 2 follows the paradigm 'convention before configuration'. A lesson learnt from our development of Icinga Web 1: one of the best tools for XML processing is on every disk: `/bin/rm`. Those who stick to a few simple conventions will save a lot of configuration work. Basically, in Icinga Web you only have to configure paths for special cases. It is usually enough to just save a file, in the right place.
 
 An extensive, mature module could have approximately the following structure:
 
@@ -107,16 +107,18 @@ We will work on our module, step by step, during this training and fill it with 
 
 ## Source Tree preparation
 
-To get started, we need Icinga Web 2. This can be checked out of the GIT Source Tree and used as it comes. If you then set `DocumentRoot` for an properly configured web server in the public directory, you can start already. For testing purposes, it's even easier:
+To get started, we need Icinga Web 2. This can be checked out of the GIT Source Tree and used as it comes. If you then set `DocumentRoot` for a properly configured web server in the `public` directory, you can start already. For testing purposes it's even easier:
 
     cd /usr/local
     # If not done yet
     git clone https://git.icinga.org/icingaweb2.git
     ./icingaweb2/bin/icingacli web serve
 
-Finished. To use the installation wizard, a token is required for security reasons. The wizard prompts you to enter a token, which is to be generated in the CLI. This is to ensure that, between installation and setup, there is never a time when an attacker could take over an environment. For packagers this point is completely optional, the same applies to those who roll out Icinga Web with a CM tool like Puppet: if there is a configuration on the system, you will never see the Wizard.
+Finished. To use the installation wizard, a token is required, for security reasons. The wizard prompts you to enter a token, which is to be generated in the CLI. This is to ensure that, between installation and setup, there is never a time when an attacker could take over an environment. For packagers this point is completely optional, the same applies to those, who roll out Icinga Web with a CM tool like Puppet: if there is a configuration on the system, you will never see the Wizard.
 
+```
   http://localhost
+```
 
 ## Manage multiple module paths
 
@@ -192,7 +194,7 @@ class HelloCommand extends Command
 Icinga\Module\<Modulname>
 ```
 
-* The first letter MUST be capitalized
+* The first letter MUST be capitalized for each word
 * For CLI commands, a dedicated namespace Clicommands is available
 
 ## Inheritance
@@ -243,7 +245,7 @@ Inline comments can help documenting commands and their actions. The comments' t
  * This is where we say hello
  *
  * The hello command allows us to be friendly to everyone
- * and his dog. That's how nice people behave!
+ * and their dog. That's how nice people behave!
  */
 class HelloCommand extends Command
 {
@@ -356,11 +358,11 @@ public function fromAction()
 
 ## API documentation
 
-The Params class in the `Icinga\Cli` namespace documents other methods and their parameters. These are accessible in the API documentation for convenience. Those docs can be generated with phpDocumentor, in the near future there should also be a CLI command.
+The Params class in the `Icinga\Cli` namespace documents other methods and their parameters. These are accessible in the API documentation for convenience. Those docs can be generated with phpDocumentor.
 
 ## Task 3
 
-Extend the say command to support all of the following options:
+Extend the `say` command to support all of the following options:
 
     icingacli training say hello World
     icingacli training say hello --to World
