@@ -295,7 +295,7 @@ It's possible to completely check, use and control command line parameters ourse
 ### Example call
 
     icingacli training hello from --from Nuremberg
-    icingacli training hello from --from "Netways Training"
+    icingacli training hello from --from "Icinga Training"
     icingacli training hello from --help
     icingacli training hello from
 
@@ -601,7 +601,7 @@ We will now expand our view script and display the submitted data:
 ```php
 <h3>Some data...</h3>
 
-This example is provided by <a href="http://www.netways.de">Netways</a> 
+This example is provided by <a href="http://www.icinga.com">Icinga</a> 
 and based on <?= $this->application ?>.
 
 <table>

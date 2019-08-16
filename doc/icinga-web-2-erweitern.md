@@ -301,7 +301,7 @@ Wir können Kommandozeilen-Parameter natürlich vollumfänglich selbst kontrolli
 ### Beispiel-Aufruf:
 
     icingacli training hello from --from Nürnberg
-    icingacli training hello from --from "Netways Training"
+    icingacli training hello from --from "Icinga Training"
     icingacli training hello from --help
     icingacli training hello from
 
@@ -609,7 +609,7 @@ Wir erweitern jetzt unser View-Skript und stellen die übermittelten Daten entsp
 ```php
 <h3>Some data...</h3>
 
-This example is provided by <a href="http://www.netways.de">Netways</a> 
+This example is provided by <a href="http://www.icinga.com">Icinga</a> 
 and based on <?= $this->application ?>.
 
 <table>
