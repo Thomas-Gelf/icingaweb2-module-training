@@ -207,6 +207,11 @@ Each command can provide multiple actions. Any new public method that ends with 
 
 ```php
 <?php
+
+namespace Icinga\Module\Training\Clicommands;
+
+use Icinga\Cli\Command;
+
 class HelloCommand extends Command
 {
     public function worldAction()
@@ -220,7 +225,7 @@ class HelloCommand extends Command
 
 We create a CLI Command with an action, which is executed as follows, and generates the following output:
 
-    icingacli training say hello
+    icingacli training hello world
 
 ## Bash Autocompletion
 
