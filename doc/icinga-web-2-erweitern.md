@@ -238,8 +238,8 @@ Die Icinga CLI stellt Autovervollständigung für alle Module, Kommandos und Akt
 ## Bash completion
 
     apt-get install bash-completion
-    cp etc/bash_completion.d/icingacli /etc/bash_completion.d/
-    . /etc/bash_completion
+    
+    cp /etc/bash_completion.d/icingacli /etc/bash_completion.d/ . /etc/bash_completion
 
 Ist die Eingabe mehrdeutig wie bei `icingacli mo`, dann wird eine entsprechende Hilfe angezeigt.
 
@@ -291,18 +291,23 @@ Wir können Kommandozeilen-Parameter natürlich vollumfänglich selbst kontrolli
 ```php
 <?php
 
-// ...
+namespace Icinga\Module\Training\Clicommands;
 
+use Icinga\Cli\Command;
+
+class SayCommand extends Command
+{
     /**
      * Say hello as someone
      *
-     * Usage: icingacli training hello from --from <someone>
+     * Usage: icingacli training say from --from <someone>
      */
     public function fromAction()
     {
         $from = $this->params->get('from', 'Nowhere');
         echo "Hello from $from!\n";
     }
+}
 ```
 
 ### Beispiel-Aufruf:
@@ -319,23 +324,30 @@ Es ist nicht zwingend erforderlich, jedem Parameter einen Bezeichner zuzuordnen.
 ```php
 <?php
 
-// ...
+namespace Icinga\Module\Training\Clicommands;
 
-/**
- * Say hello as someone
- *
- * Usage: icingacli training hello from <someone>
- */
-public function fromAction()
+use Icinga\Cli\Command;
+
+class SayCommand extends Command
 {
-    $from = $this->params->shift();
-    echo "Hello from $from!\n";
+
+    /**
+     * Say hello as someone
+     *
+     * Usage: icingacli training say from <someone>
+     */
+
+    public function fromAction()
+    {
+        $from = $this->params->shift();
+        echo "Hello from $from!\n";
+    }
 }
 ```
 
 ### Beispiel-Aufruf
 
-    icingacli training hello from Nürnberg
+    icingacli training say from Nürnberg
 
 ## Shiften macht Freude
 
@@ -346,7 +358,7 @@ Ein Spezialfall ist `shift()` mit einem Bezeichner (key) als Parameter. So würd
 ```php
 <?php
 // ...
-$person = $this->params->shift('from', 'Nobody');
+$from = $this->params->shift('from', 'Nobody');
 ```
 
 Das geht natürlich auch für Standalone-Parameter. Da wir durch den optionalen Bezeichner (key) den ersten Parameter von `shift()` schon belegt haben, jetzt aber für den zweiten (Standardwert) dennoch etwas setzen möchten, setzen wir den Bezeichner hier einfach auf null:
@@ -373,7 +385,7 @@ Die Params-Klasse im `Icinga\Cli` namespace dokumentiert noch weitere Methoden u
 
 ## Aufgabe 3
 
-Erweitere den `say` Befehl, um alle folgenden Variangen zu unterstützen:
+Erweitere den `say` Befehl, um alle folgenden Varianten zu unterstützen:
 
     icingacli training say hello World
     icingacli training say hello --to World
@@ -464,13 +476,13 @@ Wir haben bewusst auf die Trennung Library/Model verzichtet, jede zusätzliche S
 
 Jede `Action` in einem `Controller` wird automatisch zu einer `Route` in unserem Web-Frontend. Das sieht in etwa wie folgt aus:
 
-    http(s)://<host>/icingaweb/<modul>/<controller>/<action>
+    http(s)://<host>/icingaweb2/<modul>/<controller>/<action>
 
 Wenn wir für unser Training-Modul jetzt wieder unser "Hello World" erstellen möchten, erstellen wir erst mal das Basis-Verzeichnis für unsere Controller:
 
     mkdir -p training/application/controllers
 
-Anschließens legen wir unseren Controller an. Wie du schon richtig vermutest, muss dieser HelloController.php heißen und im Controllers-Namespace unseres Moduls liegen:
+Anschließend legen wir unseren Controller an. Wie du schon richtig vermutest, muss dieser HelloController.php heißen und im Controllers-Namespace unseres Moduls liegen:
 
 ```php
 <?php
@@ -546,7 +558,7 @@ $this->menuSection('Training')
      ->setUrl('training/hello/world');
 ```
 
-Um herauszufinden, welche Icons zur Verfügung stehen, aktivieren wir unter `System` / `Module` das `doc`-Modul. Anschließend finden wir die Icon-Liste unter `Dokumentation` / `Developer - Style`. Es handelt sich hierbei um Icons welche in eine Schriftart eingebettet wurden. Das hat den großen Vorteil, dass sehr viel weniger Requests über die Leitung müssen - die Icons sind einfach "immer da".
+Um herauszufinden, welche Icons zur Verfügung stehen, aktivieren wir unter `Konfiguration` / `Module` das `doc`-Modul. Anschließend finden wir die Icon-Liste unter `Dokumentation` / `Entwickler - Style`. Es handelt sich hierbei um Icons welche in eine Schriftart eingebettet wurden. Das hat den großen Vorteil, dass sehr viel weniger Requests über die Leitung müssen - die Icons sind einfach "immer da".
 
 Alternativ lassen sich auf Wunsch aber immer noch klassische Icons (.png etc) benutzen. Das ist vor allem dann nützlich, wenn man für sein Modul ein spezielles Icon (z.B. ein Firmenlogo) nutzen möchte, welches sich schlecht in den offiziellen Icinga Icon-Font integrieren lässt:
 
@@ -583,7 +595,7 @@ Erstelle die URLs `training/hello/test` und `training/say/hello` und füge jewei
 
 ## Dashboards
 
-Bevor wir uns um ernsthafte Themen kümmern wollen wir unsere nützliche URL natürlich noch als Default-Dashboard bereitstellen. Auch das lässt sich in der `configuration.php` erledigen:
+Bevor wir uns um ernsthafte Themen kümmern, wollen wir unsere nützliche URL natürlich noch als Default-Dashboard bereitstellen. Auch das lässt sich in der `configuration.php` erledigen:
 
 ```php
 <?php
